@@ -32,4 +32,25 @@ class ContactController extends Controller
             'contacts' => $contacts
         ]);
     }
+
+    /**
+     * @Route("/new", name="new_contact")
+     */
+    public function newContact(Request $request, ContactManager $contactManager)
+    {
+        $contact = new Contact;
+        $form = $this->createForm(ContactType::class, $contact);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $contactManager->saveContact($contact);
+
+            return $this->redirectToRoute('home_page');
+        }
+
+        return $this->render('contact/new_contact.html.twig', [
+           'controller_name' => 'ContactController',
+            'form' => $form->createView(),
+        ]);
+    }
+
 }

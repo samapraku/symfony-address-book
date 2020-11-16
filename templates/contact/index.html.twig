@@ -21,7 +21,7 @@
                             <img src="http://demos.themes.guide/bodeo/assets/images/users/m101.jpg" alt="{{ fullname }}" class="rounded-circle mx-auto d-block img-fluid">
                         </div>
                         <div class="col-12 col-sm-6 col-md-9 text-center text-sm-left">
-                            <a href="{# path('delete_contact', {id:contact.id}) #}" onclick="return confirm('Are you sure you want to delete {{ fullname}}\'s address?')"><span class="fa fa-trash-alt text-success float-right pulse" title="Delete Address"></span></a>
+                            <a href="{# path('delete_contact', {id:contact.id}) #}" onclick="return confirm('Are you sure you want to delete {{ fullname}}\'s address?')"><span class="fa fa-trash-alt text-danger float-right pulse" title="Delete Address"></span></a>
                             <a href="{{ path('edit_contact', {id:contact.id}) }}"><span class="fa fa-edit text-success float-right pulse mr-2" title="Edit Address"></span></a>
                             <label class="name lead" title="Name">{{ fullname }}</label>
                             <br> 
