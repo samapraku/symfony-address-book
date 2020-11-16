@@ -72,11 +72,12 @@ class ContactController extends Controller
             $contact = $form->getData();
             $image = $form->get('uploadedImage')->getData();
             if($image){
-                $imageFileName = $fileUploader->upload($image);
-                $contact->setImageFilename($imageFileName);
+                //delete old picture if exists and upload new
+                $contactManager->updateContactImage($contact, $image);
             }     
     
             $contactManager->saveContact($contact);
+            
             return $this->redirectToRoute('edit_contact', [
                 'id' => $contact->getId()
             ]);
