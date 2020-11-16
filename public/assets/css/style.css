@@ -1,0 +1,11 @@
+html,body {
+    height: 100%;
+}
+
+.container-fluid {
+    overflow: auto;/* Internet Explorer 10+ */
+}
+.container::-webkit-scrollbar { /* WebKit */
+    width: 0;
+    height: 0;
+}
