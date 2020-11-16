@@ -13,12 +13,14 @@
         <div class="card card-default" id="card_contacts">
             <div id="contacts" class="panel-collapse collapse show" aria-expanded="true" style="">
             <ul class="list-group pull-down" id="contact-list">
-             {% for contact in contacts %}
+             {% for contact in contacts %}             
              {% set fullname = contact.firstName ~' '~ contact.lastName %}
                 <li class="list-group-item">
                     <div class="row w-100">
                         <div class="col-12 col-sm-6 col-md-3 px-0">
-                            <img src="{{ relative_path(contact.imagePath) }}" alt="{{ fullname }}" class="rounded-circle mx-auto d-block img-fluid">
+                            <img src="{% if contact.imageFileName|trim is empty %} {{ asset('assets/images/default-img.png') }} {% else %} 
+                            {{ relative_path(contact.imagePath) }} {% endif %}"
+                             alt="{{ fullname }}" class="rounded-circle mx-auto d-block img-fluid">
                         </div>
                         <div class="col-12 col-sm-6 col-md-9 text-center text-sm-left">
                             <a href="{{ path('delete_contact', {id:contact.id}) }}" onclick="return confirm('Are you sure you want to delete {{ fullname}}\'s address?')"><span class="fa fa-trash-alt text-danger float-right pulse" title="Delete Address"></span></a>
