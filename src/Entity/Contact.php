@@ -3,7 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\ContactRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+
 
 /**
  * @ORM\Entity(repositoryClass=ContactRepository::class)
@@ -18,51 +20,66 @@ class Contact
     private $id;
 
     /**
+     * @Assert\NotBlank(message = "First name cannot be empty")
      * @ORM\Column(type="string", length=50)
      */
     private $firstName;
 
     /**
+     * @Assert\NotBlank(message = "Last name cannot be empty")
      * @ORM\Column(type="string", length=50)
      */
     private $lastName;
 
     /**
+     * @Assert\NotBlank(message = "Street name cannot be empty")
      * @ORM\Column(type="string", length=255)
      */
     private $streetName;
 
     /**
+     * @Assert\NotBlank(message = "Street number cannot be empty")
      * @ORM\Column(type="string", length=10)
      */
     private $streetNumber;
 
     /**
+     * @Assert\NotBlank(message = "Zip cannot be empty")
      * @ORM\Column(type="string", length=20)
      */
     private $zip;
 
     /**
+     * @Assert\NotBlank(message = "City cannot be empty")
      * @ORM\Column(type="string", length=50)
      */
     private $city;
 
     /**
+     * @Assert\NotBlank(message = "No country selected")
+     * @Assert\Country(message = "The selected country code {{ value }} is not valid")
      * @ORM\Column(type="string", length=2)
      */
     private $country;
 
     /**
+     * @Assert\NotBlank(message = "Phone number cannot be empty")
      * @ORM\Column(type="string", length=20)
      */
     private $phoneNumber;
 
     /**
+     * @Assert\NotBlank(message = "Date of Birth cannot be empty")
+     * @Assert\Date(message = "S{{value}} is not a valid date")
      * @ORM\Column(type="date")
      */
     private $birthDay;
 
     /**
+     * @Assert\NotBlank(message = "Email address cannot be empty")
+     * * @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email address."
+     * )
      * @ORM\Column(type="string", length=255)
      */
     private $emailAddress;
@@ -178,7 +195,7 @@ class Contact
         return $this->birthDay;
     }
 
-    public function setBirthDay(\DateTimeInterface $birthDay): self
+    public function setBirthDay(?\DateTimeInterface $birthDay): self
     {
         $this->birthDay = $birthDay;
 
