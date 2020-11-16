@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ContactRepository;
+use App\Service\FileUploaderService;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -11,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass=ContactRepository::class)
  */
 class Contact
-{
+{    
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -87,7 +88,12 @@ class Contact
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $picture;
+    private $imageFilename;
+
+    /**
+     * @Assert\Image
+     */
+    private $uploadedImage;
 
     public function getId(): ?int
     {
@@ -214,15 +220,32 @@ class Contact
         return $this;
     }
 
-    public function getPicture(): ?string
+    public function getImageFilename(): ?string
     {
-        return $this->picture;
+        return $this->imageFilename;
     }
 
-    public function setPicture(?string $picture): self
+    public function setImageFilename(?string $imageFilename): self
     {
-        $this->picture = $picture;
+        $this->imageFilename = $imageFilename;
 
         return $this;
+    }
+
+    public function getUploadedImage()
+    {
+        return $this->uploadedImage;
+    }
+
+    public function setUploadedImage($uploadedImage): self
+    {
+        $this->uploadedImage = $uploadedImage;
+
+        return $this;
+    }
+
+    public function getImagePath()
+    {
+        return FileUploaderService::imageUploadFolder.$this->getImageFilename();
     }
 }

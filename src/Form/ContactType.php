@@ -80,7 +80,7 @@ class ContactType extends AbstractType
                     'class' => 'form-control form-control-sm',
                 ]
                 ])
-            ->add('picture', FileType::class, [
+            ->add('uploadedImage', FileType::class, [
                 'required' => false
             ]
             );
