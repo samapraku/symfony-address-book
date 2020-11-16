@@ -53,4 +53,28 @@ class ContactController extends Controller
         ]);
     }
 
+    /**
+     * @Route("contact/{id}/edit", name="edit_contact")
+     */
+    public function editContact(Contact $contact, Request $request, ContactManager $contactManager)
+    {
+        $form = $this->createForm(ContactType::class, $contact);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $contact = $form->getData();
+            $contactManager->saveContact($contact);
+            return $this->redirectToRoute('edit_contact', [
+                'id' => $contact->getId()
+            ]);
+        }
+
+        return $this->render('contact/edit_contact.html.twig', [
+           'controller_name' => 'ContactController',
+            'form' => $form->createView(),
+        ]);
+
+        return $this->render('contact/new_contact.html.twig', [
+            'contact' => $contact,
+        ]);
+    }
 }
