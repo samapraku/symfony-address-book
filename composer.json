@@ -80,7 +80,12 @@
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
         "post-install-cmd": [
-            "@auto-scripts"
+            "@auto-scripts",            
+            "@php bin/console doctrine:schema:drop --env=prod --force --no-interaction",        
+            "@php bin/console doctrine:database:create",      
+            "@php bin/console doctrine:schema:update --env=prod --force --no-interaction",
+            "@php bin/console bin/console cache:clear --env=prod --no-debug"
+
         ],
         "post-update-cmd": [
             "@auto-scripts"
