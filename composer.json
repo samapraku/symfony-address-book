@@ -1,4 +1,6 @@
 {
+    "name": "samapraku/symfony-address-book",
+    "description": "Contacts manager",
     "type": "project",
     "license": "proprietary",
     "require": {
@@ -22,7 +24,7 @@
         "symfony/form": "3.4.*",
         "symfony/framework-bundle": "3.4.*",
         "symfony/intl": "3.4.*",
-        "symfony/monolog-bundle": "3.3",
+        "symfony/monolog-bundle": "3.3.*",
         "symfony/process": "3.4.*",
         "symfony/property-access": "3.4.*",
         "symfony/property-info": "3.4.*",
