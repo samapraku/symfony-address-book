@@ -35,7 +35,7 @@ jobs:
 
     - name: Init database for heroku
       run: |
-        php ./prepare_heroku.php
+        php ./heroku_prepare.php.php
 
     - name: Deploy to heroku
       uses: akhileshns/heroku-deploy@v3.6.8
