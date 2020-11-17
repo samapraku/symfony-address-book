@@ -22,11 +22,11 @@ class ContactController extends Controller
     }
 
     /**
-     * @Route("/list", name="contact_list")
+     * @Route("/list", name="contact_list", methods={"GET"})
      */
     public function list(ContactManager $contactManager): Response
     {
-        $contacts = $contactManager->listContacts();
+        $contacts = $contactManager->getContactsList();
         return $this->render('contact/index.html.twig', [
             'controller_name' => 'ContactController',
             'contacts' => $contacts

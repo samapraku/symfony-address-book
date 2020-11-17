@@ -72,8 +72,7 @@ class ContactType extends AbstractType
                 ],
                 'required' => true,
                 'label' => 'Date of Birth',
-                'widget' => 'single_text',                 
-                'empty_data' => ''
+                'widget' => 'single_text',
             ])
             ->add('emailAddress', EmailType::class, [
                 'attr' => [
