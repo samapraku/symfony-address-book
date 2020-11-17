@@ -29,10 +29,12 @@ class ContactManager {
        return $this->objectManager->getRepository(Contact::class)->find($id);
     }
 
-    public function saveContact(Contact $contact){
+    public function saveContact(Contact $contact): bool 
+    {
         
         $this->objectManager->persist($contact);
-        $this->objectManager->flush();    
+        $this->objectManager->flush(); 
+        return true;
     }
 
     public function updateContactImage(Contact &$contact, UploadedFile $image){

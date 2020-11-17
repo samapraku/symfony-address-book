@@ -16,7 +16,7 @@ class ContactController extends Controller
     /**
      * @Route("/", name="home_page")
      */
-    public function index(ContactManager $contactManager): Response
+    public function index()
     {
         return $this->redirectToRoute('contact_list');
     }
@@ -34,7 +34,7 @@ class ContactController extends Controller
     }
 
     /**
-     * @Route("/new", name="new_contact")
+     * @Route("/new", name="new_contact",  methods={"GET", "POST"})
      */
     public function newContact(Request $request, ContactManager $contactManager, FileUploaderService $fileUploader)
     {
@@ -49,7 +49,22 @@ class ContactController extends Controller
                 $contact->setImageFilename($imageFileName);
             }     
 
-            $contactManager->saveContact($contact);
+            $result = $contactManager->saveContact($contact);
+            
+            if($result){
+
+                $this->addFlash(
+                    'success',
+                    'The address was successfully created.'
+                );
+                
+            }
+            else {
+                $this->addFlash(
+                    'danger',
+                    'There was a problem creating the address'
+                );
+            }
 
             return $this->redirectToRoute('contact_list');
         }
@@ -62,7 +77,7 @@ class ContactController extends Controller
 
 
     /**
-     * @Route("contact/{id}/edit", name="edit_contact")
+     * @Route("contact/{id}/edit", name="edit_contact",  requirements={"id"="\d+"}, methods={"GET", "POST"})
      */
     public function editContact(Contact $contact, Request $request, ContactManager $contactManager,  FileUploaderService $fileUploader)
     {
@@ -76,8 +91,21 @@ class ContactController extends Controller
                 $contactManager->updateContactImage($contact, $image);
             }     
     
-            $contactManager->saveContact($contact);
-            
+            $result = $contactManager->saveContact($contact);
+            if($result){
+
+                $this->addFlash(
+                    'success',
+                    'The address was successfully updated.'
+                );
+                
+            }
+            else {
+                $this->addFlash(
+                    'danger',
+                    'There was a problem updating the address'
+                );
+            }
             return $this->redirectToRoute('edit_contact', [
                 'id' => $contact->getId()
             ]);
@@ -90,7 +118,7 @@ class ContactController extends Controller
     }
 
     /**
-     * @Route("contact/{id}/delete", name="delete_contact")
+     * @Route("contact/{id}/delete", name="delete_contact", )
      */
     public function deleteContact(Contact $contact, ContactManager $contactManager)
     {
@@ -102,7 +130,7 @@ class ContactController extends Controller
              }
              else {
                  $this->addFlash(
-                     'danger',
+                     'danger', 
                      'Image was not deleted.'
                  );
              }
