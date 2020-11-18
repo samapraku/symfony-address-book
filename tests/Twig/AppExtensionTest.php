@@ -22,6 +22,8 @@ class AppExtensionTest extends TestCase
          yield ['GB', 'United Kingdom'];
          yield ['US', 'United States'];
          yield ['CA', 'Canada'];
+         yield ['gh', 'Ghana'];
+         yield ['fr', 'France'];
     }
 
 }
