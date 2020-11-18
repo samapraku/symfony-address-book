@@ -89,7 +89,6 @@ php bin/console server:run
   ```javascript
     $.ajax({
       url: "/api/addresses",
-      dataType: "json",
       type : "GET",
       success : function(r) {
         console.log(r);
@@ -137,7 +136,6 @@ php bin/console server:run
   ```javascript
     $.ajax({
       url: "/api/addresses/3",
-      dataType: "json",
       type : "GET",
       success : function(r) {
         console.log(r);
@@ -191,7 +189,6 @@ php bin/console server:run
   ```javascript
     $.ajax({
       url: "/api/address",
-      dataType: "json",
       type : "POST",
       data : jsonData,
       success : function(r) {
