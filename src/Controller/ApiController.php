@@ -51,7 +51,7 @@ class ApiController extends Controller
             if ($result) {
                 $data = [
                     'status' => 201,
-                    'success' => "Contact added successfully",
+                    'success' => "Address added successfully",
                 ];
 
                 return $this->response($data);
@@ -59,7 +59,7 @@ class ApiController extends Controller
         } catch (\Exception $e) {
             $data = [
                 'status' => 422,
-                'errors' => "Data no valid",
+                'errors' => "Data not valid",
             ];
             return $this->response($data, 422);
         }
@@ -123,7 +123,7 @@ class ApiController extends Controller
         } catch (\Exception $e) {
             $data = [
                 'status' => 422,
-                'errors' => "Data no valid",
+                'errors' => "Data not valid",
             ];
             return $this->response($data, 422);
         }
@@ -141,7 +141,7 @@ class ApiController extends Controller
     if (!$address){
      $data = [
       'status' => 404,
-      'errors' => "Post not found",
+      'errors' => "Address not found",
      ];
      return $this->response($data, 404);
     }
@@ -150,7 +150,7 @@ class ApiController extends Controller
    
     $data = [
      'status' => 200,
-     'errors' => "Address deleted successfully",
+     'errors' => "Address deleted successfully.",
     ];
     return $this->response($data);
    }
@@ -164,7 +164,7 @@ class ApiController extends Controller
         if (!$request->request->get('lastName')) {
             $missing['lastName'];
         }
-        return [];
+        return $missing;
     }
 
     /**

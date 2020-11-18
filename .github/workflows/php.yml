@@ -31,15 +31,4 @@ jobs:
     
     - name: Run test suite for address-book
       run: |
-        php ./bin/phpunit
-
-    - name: Init database for heroku
-      run: |
-        php ./heroku_prepare.php
-
-    - name: Deploy to heroku
-      uses: akhileshns/heroku-deploy@v3.6.8
-      with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: symf-address
-          heroku_email: "sapraku@ultrahostghana.com"    
+        php ./bin/phpunit  
