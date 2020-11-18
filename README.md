@@ -209,9 +209,9 @@ php bin/console server:run
       }
     });
   ```
-  ### Delete Address
+### Delete Address
 ----
-  Returns json data about a single address.
+  Delete address
 
 * **URL**
 
