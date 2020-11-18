@@ -36,7 +36,7 @@ class ApiController extends Controller
      * @throws \Exception
      * @Route("/address", name="api_add_contact", methods={"POST"})
      */
-    public function addContact(Request $request, ContactManager $contactManager)
+    public function addAddress(Request $request, ContactManager $contactManager)
     {
 
         try {
@@ -69,7 +69,7 @@ class ApiController extends Controller
      * @param ContactManager $contactManager
      * @param $id
      * @return JsonResponse
-     * @Route("/address/{id}", name="api_get_address", methods={"GET"})
+     * @Route("/addresses/{id}", name="api_get_address", methods={"GET"})
      */
     public function getAddress(ContactManager $contactManager, $id)
     {
