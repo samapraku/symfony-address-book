@@ -11,10 +11,22 @@ This project is an Address book application written with Symfony Framework (3.4)
 # [📖 Docs]
 
 - [[📖 Docs]](#-docs)
+  - [Features](#features)
   - [Quick Start](#quick-start)
-- [Dependencies](#dependencie)
-- [Api Documentation](#api-documentation)  
+  - [Api Documentation](#api-documentation)
+    - [List Addresses](#list-addresses)
+    - [Get Address](#get-address)
+    - [Add Address](#add-address)
+    - [Delete Address](#delete-address)
+- [Dependencies](#dependencie)    
 - [Screenshots](#screenshots)
+
+## Features
+  - Add address
+  - Update Address
+  - Delete Address
+  - Upload optional picture
+  - API Endpoint
 
 ## Quick Start
 
@@ -48,16 +60,16 @@ php bin/console server:run
 
 ```
 
-# Dependencies
+## Dependencies
 - Symfony 3.4 Framework
 - Twig Templating Engine
 - Doctrine
 - PHPUnit
 
-# Api Docucmentation
+## Api Docucmentation
 ----
 
-**List Addresses**
+### List Addresses
 ----
   Returns List of json data for all addresses.
 
@@ -95,7 +107,7 @@ php bin/console server:run
       }
     });
   ```
-**Get Address**
+### Get Address
 ----
   Returns json data about a single address.
 
@@ -142,7 +154,7 @@ php bin/console server:run
       }
     });
   ```
-**Add Address**
+### Add Address
 ----
   Add new address.
 
@@ -172,6 +184,7 @@ php bin/console server:run
   `phoneNumber[string]`<br />
   `country[string]`<br /><br />
   `emailAddress[string]`<br />
+  `birthDay[string("yyyy-mm-dd")]`<br />
   
 
 * **Success Response:**
@@ -196,5 +209,111 @@ php bin/console server:run
       }
     });
   ```
+### Delete Address
+----
+  Delete address
+
+* **URL**
+
+  /api/addresses/:id
+
+* **Method:**
+
+  `DELETE`
+  
+*  **URL Params**
+
+   **Required:**
+ 
+   `id=[integer]`
+
+* **Data Params**
+
+  None
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** `Address deleted successfully`
+ 
+* **Error Response:**
+
+  * **Code:** 404 NOT FOUND <br />
+    **Content:** `{ error : "Address not found" }`
+
+
+* **Sample Call:**
+
+  ```javascript
+    $.ajax({
+      url: "/api/addresses/3",
+      type : "DELETE",
+      success : function(r) {
+        console.log(r);
+      }
+    });
+  ```
+### Update Address
+----
+  Update existing address.
+
+* **URL**
+
+  /api/address/:id
+
+* **Method:**
+
+  `PUT`
+  
+*  **URL Params**: none
+
+* **Data Params**
+
+  **Required:**
+  
+  'request body[json]'
+  
+  **Fields**  
+  `firstName[string]`<br />
+  `lastName[string]`<br />
+  `streetName[string]`<br />
+  `streetNumber[string]`<br />
+  `zip[string]`<br />
+  `city[string]`<br />
+  `phoneNumber[string]`<br />
+  `country[string]`<br /><br />
+  `emailAddress[string]`<br />
+  `birthDay[string("yyyy-mm-dd")]`<br />
+  
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** `Address added successfully`
+ 
+* **Error Response:**
+
+* **Code:** 404 NOT FOUND  <br />
+    **Content:** `Address not found`
+    
+    OR
+    
+  * **Code:** 422  <br />
+    **Content:** `Data not valid`
+
+* **Sample Call:**
+
+  ```javascript
+    $.ajax({
+      url: "/api/address/3",
+      type : "PUT",
+      data : jsonData,
+      success : function(r) {
+        console.log(r);
+      }
+    });
+  ```
+  
+  
 # Screenshots
 ![Image](screenshots/1.jpg?raw=true "1")
