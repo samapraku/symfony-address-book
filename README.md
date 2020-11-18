@@ -64,6 +64,7 @@ php bin/console server:run
 - Symfony 3.4 Framework
 - Twig Templating Engine
 - Doctrine
+- Bootstrap 4
 - PHPUnit
 
 ## Api Docucmentation
@@ -75,14 +76,17 @@ php bin/console server:run
 
 * **URL**
 
-  /api/addresses
+  /api/addresses/:page
 
 * **Method:**
 
   `GET`
   
-*  **URL Params**: none
+*  **URL Params**:
 
+   **Optional**:
+   
+   `page[integer]`
 
 * **Data Params**
 
