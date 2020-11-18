@@ -13,7 +13,7 @@ This project is an Address book application written with Symfony Framework (3.4)
 - [[📖 Docs]](#-docs)
   - [Quick Start](#quick-start)
 - [Technology](#technology)
-- [Dependencies](#dependencie
+- [Dependencies](#dependencies)
 - [Screenshots](#screenshots)
 
 ## Quick Start
@@ -44,6 +44,10 @@ php bin/console server:start
 
 php bin/console server:start 192.168.0.1:8080
 
+# To stop the web server, run
+
+php bin/console server:stop
+
 ```
 
 # Dependencies
@@ -51,3 +55,6 @@ php bin/console server:start 192.168.0.1:8080
 - Twig Templating Engine
 - Doctrine
 - PHPUnit
+
+# Screenshots
+![Image](screenshots/1.jpg?raw=true "1")
