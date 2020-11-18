@@ -19,8 +19,8 @@ class ContactManager {
         $this->fileUploader = $fileUploader;
     }
 
-    public function getContactsList(){
-        $this->contactList = $this->objectManager->getRepository(Contact::class)->findAll();
+    public function getContactsList($page){
+        $this->contactList = $this->objectManager->getRepository(Contact::class)->findAllPaginated($page);
         return $this->contactList;
     }
 

@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Entity\Contact;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-
+use Knp\Component\Pager\PaginatorInterface;
 /**
  * @method Contact|null find($id, $lockMode = null, $lockVersion = null)
  * @method Contact|null findOneBy(array $criteria, array $orderBy = null)
@@ -14,9 +14,10 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ContactRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
     {
         parent::__construct($registry, Contact::class);
+        $this->paginator = $paginator;
     }
 
     // /**
@@ -36,15 +37,17 @@ class ContactRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Contact
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
+    /**
+     * @return Contact[] Returns an array of Contact objects
     */
+    
+    public function findAllPaginated($page)
+    {
+       $dbquery =  $this->createQueryBuilder('c')
+            ->getQuery();
+
+            $pagination = $this->paginator->paginate($dbquery, $page, 10);
+            return $pagination;
+    }
+    
 }

@@ -8,7 +8,6 @@ use App\Form\ContactType;
 use App\Service\FileUploaderService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ContactController extends Controller
@@ -22,11 +21,11 @@ class ContactController extends Controller
     }
 
     /**
-     * @Route("/list", name="contact_list", methods={"GET"})
+     * @Route("/list/{page}", name="contact_list", methods={"GET"}, defaults={"page":1})
      */
-    public function list(ContactManager $contactManager): Response
+    public function list($page, ContactManager $contactManager)
     {
-        $contacts = $contactManager->getContactsList();
+        $contacts = $contactManager->getContactsList($page);
         return $this->render('contact/index.html.twig', [
             'controller_name' => 'ContactController',
             'contacts' => $contacts

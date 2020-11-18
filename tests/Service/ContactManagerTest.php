@@ -28,7 +28,7 @@ class ContactManagerTest extends KernelTestCase
 
         $contactRepository = $this->createMock(ContactRepository::class);
         $contactRepository->expects($this->once())
-        ->method('findAll')
+        ->method('findAllPaginated')
         ->willReturn([new Contact(), new Contact()]);
         
         /** @var ObjectManager | MockObject $mockEntityMgr */ 
@@ -40,8 +40,8 @@ class ContactManagerTest extends KernelTestCase
         /** @var FileUploaderService | MockObject $mockFileUploader */ 
         $mockFileUploader =   $this->createMock(FileUploaderService::class);
         $contactManager = new ContactManager($objectManager, $mockFileUploader);
-        $contactList = $contactManager->getContactsList();
-        $this->assertCount(2, $contactList);
+        $paginated = $contactManager->getContactsList(1);
+        $this->assertCount(2, $paginated);
     }
 
 }

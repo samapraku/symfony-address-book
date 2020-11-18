@@ -21,12 +21,13 @@ class ApiController extends Controller
     /**
      * @param ContactManager $contactManager
      * @return JsonResponse
-     * @Route("/addresses", name="api_contacts", methods={"GET"})
+     * @Route("/addresses/{page}", name="api_contacts", methods={"GET"}, defaults={"page":1})
      */
-    public function getContacts(ContactManager $contactManager)
+    public function getContacts($page, ContactManager $contactManager)
     {
-        $data = $contactManager->getContactsList();
-        return $this->response($data);
+        $data = $contactManager->getContactsList($page);
+       
+        return $this->response($data->getItems());
     }
 
     /**
