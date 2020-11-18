@@ -12,6 +12,7 @@
         "doctrine/doctrine-bundle": "^1.12",
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.7",
+        "nelmio/api-doc-bundle": "^3.0",
         "phpdocumentor/reflection-docblock": "^5.2",
         "sensio/framework-extra-bundle": "^5.1",
         "symfony/apache-pack": "^1.0",
@@ -29,7 +30,6 @@
         "symfony/property-access": "3.4.*",
         "symfony/property-info": "3.4.*",
         "symfony/security-bundle": "3.4.*",
-        "symfony/serializer": "3.4.*",
         "symfony/swiftmailer-bundle": "^3.1",
         "symfony/translation": "3.4.*",
         "symfony/twig-bundle": "3.4.*",
@@ -84,7 +84,7 @@
             "@php bin/console doctrine:schema:drop --env=prod --force --no-interaction",        
             "@php bin/console doctrine:database:create",      
             "@php bin/console doctrine:schema:update --env=prod --force --no-interaction",
-            "@php bin/console bin/console cache:clear --env=prod --no-debug"
+            "@php bin/console cache:clear --env=prod --no-debug"
 
         ],
         "post-update-cmd": [
