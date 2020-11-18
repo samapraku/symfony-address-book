@@ -142,7 +142,7 @@ php bin/console server:start 192.168.0.1:8080
 
   ```javascript
     $.ajax({
-      url: "/addresses/3",
+      url: "/api/addresses/3",
       dataType: "json",
       type : "GET",
       success : function(r) {
@@ -150,6 +150,60 @@ php bin/console server:start 192.168.0.1:8080
       }
     });
   ```
+**Add Address**
+----
+  Add new address.
 
+* **URL**
+
+  /api/address
+
+* **Method:**
+
+  `POST`
+  
+*  **URL Params**: none
+
+* **Data Params**
+
+  **Required:**
+  
+  'request body[json]'
+  
+  **Fields**  
+  `firstName[string]`<br />
+  `lastName[string]`<br />
+  `streetName[string]`<br />
+  `streetNumber[string]`<br />
+  `zip[string]`<br />
+  `city[string]`<br />
+  `phoneNumber[string]`<br />
+  `country[string]`<br /><br />
+  `emailAddress[string]`<br />
+  
+
+* **Success Response:**
+
+  * **Code:** 201 <br />
+    **Content:** `Address added successfully`
+ 
+* **Error Response:**
+
+  * **Code:** 422  <br />
+    **Content:** `Data not valid`
+
+* **Sample Call:**
+
+  ```javascript
+    $.ajax({
+      url: "/api/address",
+      dataType: "json",
+      type : "POST",
+      data : jsonData,
+      success : function(r) {
+        console.log(r);
+      }
+    });
+  ```
 # Screenshots
 ![Image](screenshots/1.jpg?raw=true "1")
