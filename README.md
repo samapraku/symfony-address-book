@@ -13,7 +13,7 @@ This project is an Address book application written with Symfony Framework (3.4)
 - [[📖 Docs]](#-docs)
   - [Quick Start](#quick-start)
 - [Technology](#technology)
-- [Dependencies](#dependencie
+- [Dependencies](#dependencies)
 - [Screenshots](#screenshots)
 
 ## Quick Start
