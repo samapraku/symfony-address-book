@@ -4,8 +4,8 @@ namespace App\Service;
 use App\Entity\Contact;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\BrowserKit\Request;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-
 class ContactManager {
 
 
@@ -56,6 +56,26 @@ class ContactManager {
             return true;
         }
         else return false;
+    }
+
+    public function apiSaveContact(Request $request)
+    {
+      $request = $request->request;   
+      $contact = new Contact();
+        
+      $contact->setFirstname($request->get('firstName'))
+     ->setLastname($request->get('lastName')) 
+     ->setStreetname($request->get('streetName')) 
+     ->setStreetnumber($request->get('streetNumber'))
+     ->setZip($request->get('zip'))
+     ->setCity($request->get('city'))
+     ->setPhonenumber($request->get('phoneNumber')) 
+     ->setCountry($request->get('country'))
+     ->setEmailaddress($request->get('emailAddress'));
+     
+      return $this->saveContact($contact);
+ 
+        
     }
 
     private function deleteImage($path) : bool

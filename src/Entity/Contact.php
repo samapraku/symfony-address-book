@@ -10,9 +10,11 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=ContactRepository::class)
+ * 
+ * @ORM\HasLifecycleCallbacks()
  */
-class Contact
-{    
+class Contact  implements \JsonSerializable
+{
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -94,6 +96,16 @@ class Contact
      * @Assert\Image
      */
     private $uploadedImage;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true, options={"default": "CURRENT_TIMESTAMP"})
+     */
+    private $created_at;
+
+    /**
+     * @ORM\Column(type="datetime",  nullable=true, options={"default": "CURRENT_TIMESTAMP"})
+     */
+    private $updated_at;
 
     public function getId(): ?int
     {
@@ -246,6 +258,72 @@ class Contact
 
     public function getImagePath()
     {
-        return FileUploaderService::imageUploadFolder.$this->getImageFilename();
+        return FileUploaderService::imageUploadFolder . $this->getImageFilename();
+    }
+
+    /**
+     * @throws \Exception
+     * @ORM\PrePersist()
+     */
+    public function beforeSave()
+    {
+
+        $this->create_date = new \DateTime();
+        $this->updated_at = new \DateTime();
+    }
+
+    /**
+     * @throws \Exception
+     * @ORM\PreUpdate()
+     */
+    public function beforeUpdate()
+    {
+        $this->updated_at = new \DateTime();
+    }
+
+
+    /**
+     * Specify data which should be serialized to JSON
+     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->getId(),
+            "first_name" => $this->getFirstName(),
+            "last_name" => $this->getLastName(),
+            "phone_number" => $this->getPhoneNumber(),
+            "city" => $this->getCity(),
+            "zip" => $this->getZip(),
+            "street_name" => $this->getStreetName(),
+            "street_number" => $this->getStreetNumber(),
+            "birthday" => $this->getBirthDay(),
+            "country"  => $this->getcountry()
+        ];
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $created_at): self
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updated_at): self
+    {
+        $this->updated_at = $updated_at;
+
+        return $this;
     }
 }

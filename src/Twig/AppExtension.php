@@ -29,7 +29,7 @@ class AppExtension extends AbstractExtension
     public function getCountryName($countryCode) : string
     {
         if(is_null($countryCode)) return 'No country selected';
-
+        $countryCode = strtoupper($countryCode);
         $country = Intl::getRegionBundle()->getCountryName($countryCode);
         return $country ?? $countryCode;
     }
