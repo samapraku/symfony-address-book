@@ -47,12 +47,6 @@ composer install
 php bin/console server:run
 
 ```
-- By default, the web server listens on port 8000 on the loopback device. 
- You can change the socket by passing an IP address and a port as a command-line argument:
-```bash
-php bin/console server:start 192.168.0.1:8080
-
-```
 
 # Dependencies
 - Symfony 3.4 Framework
