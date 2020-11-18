@@ -13,7 +13,11 @@ This project is an Address book application written with Symfony Framework (3.4)
 - [[📖 Docs]](#-docs)
   - [Quick Start](#quick-start)
 - [Dependencies](#dependencie)
-- [Api Documentation](#api-documentation)  
+- [Api Documentation](#api-documentation)
+  - [List Addresses](#list-addresses)
+  - [Get Address](#get-address)
+  - [Add Address](#add-address)
+  - [Delete Address](#delete-address)
 - [Screenshots](#screenshots)
 
 ## Quick Start
@@ -57,7 +61,7 @@ php bin/console server:run
 # Api Docucmentation
 ----
 
-**List Addresses**
+### List Addresses
 ----
   Returns List of json data for all addresses.
 
@@ -95,7 +99,7 @@ php bin/console server:run
       }
     });
   ```
-**Get Address**
+### Get Address
 ----
   Returns json data about a single address.
 
@@ -142,7 +146,7 @@ php bin/console server:run
       }
     });
   ```
-**Add Address**
+## Add Address
 ----
   Add new address.
 
@@ -196,5 +200,50 @@ php bin/console server:run
       }
     });
   ```
+  ### Delete Address
+----
+  Returns json data about a single address.
+
+* **URL**
+
+  /api/addresses/:id
+
+* **Method:**
+
+  `DELETE`
+  
+*  **URL Params**
+
+   **Required:**
+ 
+   `id=[integer]`
+
+* **Data Params**
+
+  None
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** `Address deleted successfully`
+ 
+* **Error Response:**
+
+  * **Code:** 404 NOT FOUND <br />
+    **Content:** `{ error : "Address not found" }`
+
+
+* **Sample Call:**
+
+  ```javascript
+    $.ajax({
+      url: "/api/addresses/3",
+      type : "DELETE",
+      success : function(r) {
+        console.log(r);
+      }
+    });
+  ```
+  
 # Screenshots
 ![Image](screenshots/1.jpg?raw=true "1")
