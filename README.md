@@ -13,6 +13,8 @@ This project is an Address book application written with Symfony Framework (3.4)
 - [[📖 Docs]](#-docs)
   - [Features](#features)
   - [Quick Start](#quick-start)
+    - [Run with Symfony development Server](#run-with-symfony-development-server)
+    - [Run with Docker](#run-with-docker)
   - [Api Documentation](#api-documentation)
     - [List Addresses](#list-addresses)
     - [Get Address](#get-address)
@@ -53,11 +55,38 @@ composer install
 ./bin/phpunit
 ```
 
-### Start Symfony development server to run application
+### Run with Symfony development Server
+
+#### Start Symfony development server to run application
 #This starts the web server at http://localhost:8000
 ```bash
 php bin/console server:run
 
+```
+### Run with Docker
+
+The application can also be run with docker compose using the commands below:
+
+#### Build for docker
+
+```bash
+docker-compose build
+```
+The command above will build the application from the `“docker-compose.yml”`.
+
+Excecute the command below to start the container and run the application.
+
+#### Start up the container
+```bash
+docker-compose up -d
+```
+
+The application will run at http://localhost:80. Make sure no service is already listening on port 80.
+
+To stop your containers, use :
+
+```bash
+docker-compose stop
 ```
 
 ## Dependencies
