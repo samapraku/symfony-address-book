@@ -4,7 +4,7 @@ namespace App\Service;
 use App\Entity\Contact;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\BrowserKit\Request;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 class ContactManager {
 
@@ -19,8 +19,8 @@ class ContactManager {
         $this->fileUploader = $fileUploader;
     }
 
-    public function getContactsList($page){
-        $this->contactList = $this->objectManager->getRepository(Contact::class)->findAllPaginated($page);
+    public function getContactsList($page, $sort_method = ''){
+        $this->contactList = $this->objectManager->getRepository(Contact::class)->findAllPaginated($page, $sort_method);
         return $this->contactList;
     }
 
@@ -60,7 +60,7 @@ class ContactManager {
 
     public function apiSaveContact(Request $request)
     {
-      $request = $request->request;   
+      
       $contact = new Contact();
         
       $contact->setFirstname($request->get('firstName'))

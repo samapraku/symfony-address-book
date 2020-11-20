@@ -1,66 +1,81 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ContactController!{% endblock %}
+{% block title %}Address Book
+{% endblock %}
 
 {% block content_body %}
-    <div class="container mt-3 mb-3">
-        <div class="col-12 border">Address List ({{ contacts | length}})</div>
-    </div>
-<div class="container-fluid h-100 d-flex flex-column">  
-    <div class="row flex-fill" style="min-height:0">
-        <div class="col-12  mb-5 mh-100" >
-             
-        <div class="card card-default" id="card_contacts">
-            <div id="contacts" class="panel-collapse collapse show" aria-expanded="true" style="">
-            <ul class="list-group pull-down" id="contact-list">
-             {% for contact in contacts %}             
-             {% set fullname = contact.firstName ~' '~ contact.lastName %}
-                <li class="list-group-item">
-                    <div class="row w-100">
-                        <div class="col-12 col-sm-6 col-md-3 px-0">
-                            <img src="{% if contact.imageFileName|trim is empty %} {{ asset('assets/images/default-img.png') }} {% else %} 
-                            {{ relative_path(contact.imagePath) }} {% endif %}"
-                             alt="{{ fullname }}" class="rounded-circle mx-auto d-block img-fluid">
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-9 text-center text-sm-left">
-                            <a href="{{ path('delete_contact', {id:contact.id}) }}" onclick="return confirm('Are you sure you want to delete {{ fullname}}\'s address?')"><span class="fa fa-trash-alt text-danger float-right pulse" title="Delete Address"></span></a>
-                            <a href="{{ path('edit_contact', {id:contact.id}) }}"><span class="fa fa-edit text-success float-right pulse mr-2" title="Edit Address"></span></a>
-                            <label class="name lead" title="Name">{{ fullname }}</label>
-                            <br> 
-                            <span class="fa fa-map-marker fa-fw text-muted" data-toggle="tooltip" title="" data-original-title="5842 Hillcrest Rd"></span>
-                            <span class="text-muted" title="Address">{{contact.streetName ~' '~ contact.streetNumber ~ ', ' ~ contact.zip}}</span>
-                            <br>
-                            <span class="fa fa-phone fa-fw text-muted" data-toggle="tooltip" title="" data-original-title="(870) 288-4149"></span>
-                            <span class="text-muted small" title="Phone Number">{{ contact.phoneNumber }}</span>
-                            <br>
-                            <span class="fa fa-envelope fa-fw text-muted" data-toggle="tooltip" data-original-title="" title=""></span>
-                            <span class="text-muted small text-truncate" title="Email Address">{{ contact.emailAddress }}</span>
-                            <br>
-                            <span class="fa fa-birthday-cake fa-fw text-muted" data-toggle="tooltip" data-original-title="" title=""></span>
-                            <span class="text-muted small text-truncate" title="Date of Birth">{{ contact.birthDay |date("m/d/Y")  }}</span>
-                            <br>
-                            <span class="fa fa-city fa-fw text-muted" data-toggle="tooltip" data-original-title="" title=""></span>
-                            <span class="text-muted small text-truncate" title="City">{{ contact.city  }}</span>
-                            <br>
-                            <span class="fa fa-globe-europe fa-fw text-muted" data-toggle="tooltip" data-original-title="" title=""></span>
-                            <span class="text-muted small text-truncate"  title="Country">{{ contact.country | country_name  }}</span>
+	<div class="container mt-3 mb-3">
+		<div class="col-12 border">
+			<div class="row">
+				<div class="col-12">
+                    {% set fetched = page * 10 %}
+					Address List ({{ fetched < paginatedContacts.getTotalItemCount ? fetched : paginatedContacts.getTotalItemCount }}/{{ paginatedContacts.getTotalItemCount  }})
+				</div>
+			</div>
+            <div class="row">
+                <div class="col-12 mb-2">
+                <div class="float-right">  
+                    {{ include("contact/_sort.html.twig", {request: request}) }}
+                </div>
+                </div>
+            </div>
+		</div>
+	</div>
+	<div class="container-fluid h-100 d-flex flex-column">
+		<div class="row flex-fill" style="min-height:0">
+			<div class="col-12  mb-5 mh-100">
 
-                        </div>
-                    </div>
-                </li>
-            {% endfor %}
-            </ul>
-           {{ knp_pagination_render(contacts) }}
-            </div>
-            </div>
-        </div>
-        <!-- div class="col-4 border" style="overflow-y: scroll;">Article content </div -->
-    </div>
-</div>
+				<div class="card card-default" id="card_contacts">
+					<div id="contacts" class="panel-collapse collapse show" aria-expanded="true" style="">
+						<ul class="list-group pull-down" id="contact-list">
+							{% for contact in paginatedContacts %}
+								{% set fullname = contact.firstName ~' '~ contact.lastName %}
+								<li class="list-group-item">
+									<div class="row w-100">
+										<div class="col-12 col-sm-6 col-md-3 px-0">
+											<img src="{% if contact.imageFileName|trim is empty %} {{ asset('assets/images/default-img.png') }} {% else %} {{ relative_path(contact.imagePath) }} {% endif %}" alt="{{ fullname }}" class="rounded-circle mx-auto d-block img-fluid">
+										</div>
+										<div class="col-12 col-sm-6 col-md-9 text-center text-sm-left">
+											<a href="{{ path('delete_contact', {id:contact.id}) }}" onclick="return confirm('Are you sure you want to delete {{ fullname}}\'s address?')">
+												<span class="fa fa-trash-alt text-danger float-right pulse" title="Delete Address"></span>
+											</a>
+											<a href="{{ path('edit_contact', {id:contact.id}) }}">
+												<span class="fa fa-edit text-success float-right pulse mr-2" title="Edit Address"></span>
+											</a>
+											<label class="name lead" title="Name">{{ fullname }}</label>
+											<br>
+											<span class="fa fa-map-marker fa-fw text-muted" data-toggle="tooltip" title="" data-original-title="5842 Hillcrest Rd"></span>
+											<span class="text-muted" title="Address">{{contact.streetName ~' '~ contact.streetNumber ~ ', ' ~ contact.zip}}</span>
+											<br>
+											<span class="fa fa-phone fa-fw text-muted" data-toggle="tooltip" title="" data-original-title="(870) 288-4149"></span>
+											<span class="text-muted small" title="Phone Number">{{ contact.phoneNumber }}</span>
+											<br>
+											<span class="fa fa-envelope fa-fw text-muted" data-toggle="tooltip" data-original-title="" title=""></span>
+											<span class="text-muted small text-truncate" title="Email Address">{{ contact.emailAddress }}</span>
+											<br>
+											<span class="fa fa-birthday-cake fa-fw text-muted" data-toggle="tooltip" data-original-title="" title=""></span>
+											<span class="text-muted small text-truncate" title="Date of Birth">{{ contact.birthDay |date("m/d/Y")  }}</span>
+											<br>
+											<span class="fa fa-city fa-fw text-muted" data-toggle="tooltip" data-original-title="" title=""></span>
+											<span class="text-muted small text-truncate" title="City">{{ contact.city  }}</span>
+											<br>
+											<span class="fa fa-globe-europe fa-fw text-muted" data-toggle="tooltip" data-original-title="" title=""></span>
+											<span class="text-muted small text-truncate" title="Country">{{ contact.country | country_name  }}</span>
+
+										</div>
+									</div>
+								</li>
+							{% endfor %}
+						</ul>
+						{{ knp_pagination_render(paginatedContacts) }}
+					</div>
+				</div>
+			</div>
+			<!-- div class="col-4 border" style="overflow-y: scroll;">Article content </div -->
+		</div>
+	</div>
 
 
 {% endblock %}
 
-{% block custom_javascripts %}
-
-{% endblock %}
+{% block custom_javascripts %}{% endblock %}

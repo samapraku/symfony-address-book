@@ -23,12 +23,15 @@ class ContactController extends Controller
     /**
      * @Route("/list/{page}", name="contact_list", methods={"GET"}, defaults={"page":1})
      */
-    public function list($page, ContactManager $contactManager)
+    public function list($page, ContactManager $contactManager, Request $request)
     {
-        $contacts = $contactManager->getContactsList($page);
+        $sortBy = $request->get('sortby');
+        $contactsPaginated = $contactManager->getContactsList($page, $sortBy);
         return $this->render('contact/index.html.twig', [
             'controller_name' => 'ContactController',
-            'contacts' => $contacts
+            'paginatedContacts' => $contactsPaginated,
+            'request' => $request,
+            'page' => $page
         ]);
     }
 
