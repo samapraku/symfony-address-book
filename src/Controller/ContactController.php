@@ -25,13 +25,16 @@ class ContactController extends Controller
      */
     public function list($page, ContactManager $contactManager, Request $request)
     {
+       
         $sortBy = $request->get('sortby');
-        $contactsPaginated = $contactManager->getContactsList($page, $sortBy);
+        $searchBy = $request->get('search');
+        $contactsPaginated = $contactManager->getContactsList($page, trim($sortBy), trim($searchBy));
         return $this->render('contact/index.html.twig', [
             'controller_name' => 'ContactController',
             'paginatedContacts' => $contactsPaginated,
-            'request' => $request,
-            'page' => $page
+            'page' => $page,
+            'sortBy' => $sortBy,
+            'searchBy' => $searchBy  
         ]);
     }
 

@@ -26,17 +26,35 @@ class ContactRepository extends ServiceEntityRepository
      * @return Contact[] Returns an array of Contact objects
      */
 
-    public function findAllPaginated($page, $sortBy)
+    public function findAllPaginated(int $page, string $sortBy = '', string $search='')
+    {   
+
+        $queryBuilder =  $this->createQueryBuilder('c');
+
+        $searchTerms = $this->prepareSearch($search);
+        foreach ($searchTerms as $key => $term) {
+            $queryBuilder->orWhere('c.firstName LIKE :t_'.$key);
+            $queryBuilder->orWhere('c.lastName LIKE :t_'.$key);
+            $queryBuilder->setParameter('t_'.$key, '%'.trim($term).'%');
+        }
+
+        [$field, $order ] = $this->prepareSort($sortBy);
+        $queryBuilder->orderBy("c.{$field}", $order);
+        $dbquery = $queryBuilder->getQuery();
+
+        $pagination = $this->paginator->paginate($dbquery, 1, 10);
+        return $pagination;
+    }
+
+    private function prepareSort($sortBy) : array
     {
         $sort_fields = ['firstName', 'lastName'];
         $sort_methods = ['ASC', 'DESC'];
-        $queryBuilder =  $this->createQueryBuilder('c');
-
         $field = 'firstName';
         $order = 'ASC';
         // Ensure sorting parameters correspond to defined ones
         if (!empty($sortBy)) {
-            $sort = preg_split("/-/", $sortBy);
+            $sort = explode('-', $sortBy);
             if (count($sort) > 1) {    
                 if (in_array($sort[0], $sort_fields) && in_array(strtoupper($sort[1]), $sort_methods)) {
                     $field = $sort[0];
@@ -44,11 +62,13 @@ class ContactRepository extends ServiceEntityRepository
                 }
             }
         }
+        return [$field, $order];
+    }
 
-        $queryBuilder->orderBy("c.{$field}", $order);
-        $dbquery = $queryBuilder->getQuery();
-
-        $pagination = $this->paginator->paginate($dbquery, $page, 10);
-        return $pagination;
+    private function prepareSearch($search): array
+    {
+        if(!empty($search))
+        return explode(' ', $search);
+        else return [];
     }
 }

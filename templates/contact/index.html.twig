@@ -6,19 +6,19 @@
 {% block content_body %}
 	<div class="container mt-3 mb-3">
 		<div class="col-12 border">
-			<div class="row">
+            <div class="row">
+                <div class="col-12 mt-2 mb-2">
+				<div class="float-left">  
+                    {{ include("contact/_search.html.twig", { searchBy : searchBy }) }}
+                </div>
+                </div>
+            </div>
+			<div class="row mb-2">
 				<div class="col-12">
                     {% set fetched = page * 10 %}
 					Address List ({{ fetched < paginatedContacts.getTotalItemCount ? fetched : paginatedContacts.getTotalItemCount }}/{{ paginatedContacts.getTotalItemCount  }})
 				</div>
 			</div>
-            <div class="row">
-                <div class="col-12 mb-2">
-                <div class="float-right">  
-                    {{ include("contact/_sort.html.twig", {request: request}) }}
-                </div>
-                </div>
-            </div>
 		</div>
 	</div>
 	<div class="container-fluid h-100 d-flex flex-column">

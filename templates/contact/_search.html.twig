@@ -1,0 +1,64 @@
+
+	<form name="search-form" id="form-sort-search" class="form-inline" method="GET">
+		<label for="search_input" >Search</label>
+		<input type="text" class="form-control mb-2 ml-sm-2 mr-sm-2" name="search" id="search_input" placeholder="firstname Or lastname" value="{% if searchBy %}{{ searchBy|trim }}{% endif %}">
+		<label for="inlineSortSelect">Sort List</label>
+		<select name="sortby" class="form-control ml-sm-2 mb-2 ml-sm-2" id="inlineSortSelect">
+			
+			<option value="" {% if sortBy is empty %} selected {% endif %}>Sort...</option>
+			<option value="firstName-asc" {% if sortBy is same as('firstName-asc') %} selected {% endif %}>First Name A-Z</option>
+			<option value="firstName-desc" {% if sortBy is same as('firstName-desc') %} selected {% endif %}>First Name Z-A</option>
+			<option value="lastName-asc" {% if sortBy is same as('lastName-asc') %} selected {% endif %}>Last Name A-Z</option>
+			<option value="lastName-desc" {% if sortBy is same as('lastName-desc') %} selected {% endif %}>Last Name Z-A</option>
+		</select>
+	</form>
+	<script type="text/javascript">
+
+		function formSubmit(event)
+		{
+			event.preventDefault();
+			console.log(event);
+			let searchInput = event.target.querySelector('#search_input');
+			let sortSelect = event.target.querySelector('#inlineSortSelect');
+			console.log(searchInput.value);
+			console.log(sortSelect.value);
+			if(searchInput.value === '' && sortSelect.value === ''){
+			  // event.preventDefault();
+				//reload();
+				//return;
+			}
+
+			if(searchInput.value === ''){
+				searchInput.removeAttribute('name');
+			}
+
+			if( sortSelect.value === ''){
+				sortSelect.removeAttribute('name');
+			}
+
+			//form.submit();
+			event.currentTarget.submit()
+		}
+		
+
+		function sortList(event) {
+
+       // console.log(event);
+	   // Creating the event
+        var event = new Event('submit', {
+            'bubbles'    : true, // Whether the event will bubble up through the DOM or not
+            'cancelable' : true  // Whether the event may be canceled or not
+        });
+		
+		 form.dispatchEvent( event );
+        }
+
+		function reload(){
+			window.location = window.location.pathname + window.location.hash;
+		}
+		
+		const form = document.getElementById('form-sort-search');
+		form.addEventListener('submit', formSubmit);
+		const selectSort = document.getElementById('inlineSortSelect');
+		selectSort.addEventListener('change', sortList);
+	</script>
