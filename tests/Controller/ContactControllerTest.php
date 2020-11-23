@@ -124,4 +124,43 @@ class ContactControllerTest extends WebTestCase
 	);
     }
 
+    
+    public function testNoSearchResult()
+    {
+        $client = static::createClient();
+        $client->followRedirects(true);
+        $crawler = $client->request('GET', '/list');
+
+        $formNode = $crawler->filter('form#form-sort-search');
+        $form = $formNode->form([
+            'search'    => 'NoName'
+        ]);
+        
+        $crawler = $client->submit($form);
+        
+        $this->assertContains(
+    	    'No address was found.',
+    	    $crawler->filter('h1')->text()
+	);
+    }
+
+    
+    public function testSearchFound()
+    {
+        $client = static::createClient();
+        $client->followRedirects(true);
+        $crawler = $client->request('GET', '/list');
+
+        $formNode = $crawler->filter('form#form-sort-search');
+        $form = $formNode->form([
+            'search'    => 'Max'
+        ]);
+        
+        $crawler = $client->submit($form);
+        
+        $this->assertGreaterThanOrEqual(1, 
+    	    $crawler->filter('li.list-group-item')->count()
+	);
+    }
+
 }

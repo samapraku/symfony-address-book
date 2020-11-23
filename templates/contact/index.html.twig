@@ -27,6 +27,7 @@
 
 				<div class="card card-default" id="card_contacts">
 					<div id="contacts" class="panel-collapse collapse show" aria-expanded="true" style="">
+					{% if paginatedContacts | length > 0 %}
 						<ul class="list-group pull-down" id="contact-list">
 							{% for contact in paginatedContacts %}
 								{% set fullname = contact.firstName ~' '~ contact.lastName %}
@@ -67,6 +68,10 @@
 								</li>
 							{% endfor %}
 						</ul>
+						
+							{% else %}
+								<h1 class="ml-3">No address was found.</h1>
+							{% endif %}
 						{{ knp_pagination_render(paginatedContacts) }}
 					</div>
 				</div>
