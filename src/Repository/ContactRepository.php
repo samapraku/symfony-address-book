@@ -42,7 +42,7 @@ class ContactRepository extends ServiceEntityRepository
         $queryBuilder->orderBy("c.{$field}", $order);
         $dbquery = $queryBuilder->getQuery();
 
-        $pagination = $this->paginator->paginate($dbquery, 1, 10);
+        $pagination = $this->paginator->paginate($dbquery, $page, 10);
         return $pagination;
     }
 

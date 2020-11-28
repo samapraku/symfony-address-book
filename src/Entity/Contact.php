@@ -268,7 +268,7 @@ class Contact  implements \JsonSerializable
     public function beforeSave()
     {
 
-        $this->create_date = new \DateTime();
+        $this->created_at = new \DateTime();
         $this->updated_at = new \DateTime();
     }
 
