@@ -22,5 +22,4 @@ FROM composer:2.0 as composer
     RUN PATH=$PATH:/usr/src/vendor/bin:bin
 
 
-    RUN composer install --no-scripts --prefer-dist \
-      && rm -rf "$(composer config cache-dir)" "$(composer config data-dir)"
+    RUN composer install --prefer-dist
