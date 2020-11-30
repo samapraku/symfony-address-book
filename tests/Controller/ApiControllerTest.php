@@ -11,7 +11,7 @@ class ApiControllerTest extends AbstractControllerTest
 {
     public function testListAddresses()
     {
-        
+        date_default_timezone_set('UTC');
         $this->loadFixture(new ContactFixtures());
         $this->client->request('GET', '/api/addresses');
 
@@ -30,7 +30,7 @@ class ApiControllerTest extends AbstractControllerTest
                     'birthday' => [
                         'date' => '1990-01-01 00:00:00.000000',
                         'timezone_type' => 3,
-                        'timezone' => 'Europe/Berlin'
+                        'timezone' => 'UTC'
                     ],
                     'country' => 'GB'
                 ], [
@@ -45,7 +45,7 @@ class ApiControllerTest extends AbstractControllerTest
                     'birthday' => [
                         'date' => '2000-01-01 00:00:00.000000',
                         'timezone_type' => 3,
-                        'timezone' => 'Europe/Berlin'
+                        'timezone' => 'UTC'
                     ],
                     'country' => 'DE'
                 ]
@@ -75,7 +75,7 @@ class ApiControllerTest extends AbstractControllerTest
                 'birthday' => [
                     'date' => '2000-01-01 00:00:00.000000',
                     'timezone_type' => 3,
-                    'timezone' => 'Europe/Berlin'
+                    'timezone' => 'UTC'
                 ],
                 'country' => 'DE'
             ]
