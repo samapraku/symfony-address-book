@@ -2,25 +2,23 @@
 
 namespace App\Tests\Controller;
 
+use App\DataFixtures\ContactFixtures;
 use App\Entity\Contact;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class ContactControllerTest extends WebTestCase
+class ContactControllerTest extends AbstractControllerTest
 {
    
     /**
     * @dataProvider provideUrls
     */
     public function testPageIsSuccessful($url)
-    {
-        $client = static::createClient();
-        $client->followRedirects(true);
-        $client->request('GET', $url);
-        $this->assertTrue($client->getResponse()->isSuccessful());
+    {        
+        $this->loadFixture(new ContactFixtures());
+        $this->client->followRedirects(true);
+        $this->client->request('GET', $url);
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
     }
-
-    
     
     public function provideUrls()
     {
@@ -36,9 +34,9 @@ class ContactControllerTest extends WebTestCase
 
     public function testCreateNewContactWithoutPicture()
     {
-        $client = static::createClient();
-        $client->followRedirects(true);
-        $crawler = $client->request('GET', '/new');
+        $this->loadFixture(new ContactFixtures());
+        $this->client->followRedirects(true);
+        $crawler = $this->client->request('GET', '/new');
 
         $buttonCrawlerNode = $crawler->selectButton('Add new address');
         $form = $buttonCrawlerNode->form();
@@ -55,19 +53,19 @@ class ContactControllerTest extends WebTestCase
             'contact[emailAddress]' => 'muster@mustermail.com'
 
         ]);
-        $client->submit($form);
-        $this->assertContains(
+        $this->client->submit($form);
+        $this->assertStringContainsString(
     	    'The address was successfully created.',
-    	    $client->getResponse()->getContent()
+    	    $this->client->getResponse()->getContent()
 	);
     }
 
     
     public function testUpateContact()
     {
-        $client = static::createClient();
-        $client->followRedirects(true);
-        $entityManager = $client->getContainer()->get('doctrine')->getManager();
+        $this->loadFixture(new ContactFixtures());
+        $this->client->followRedirects(true);
+        $entityManager = $this->client->getContainer()->get('doctrine')->getManager();
         $oldContact = new Contact();
         $oldContact = $entityManager->createQueryBuilder()->select('c')
         ->from("\App\Entity\Contact", 'c')
@@ -78,22 +76,21 @@ class ContactControllerTest extends WebTestCase
         $id = $oldContact->getId();
         
        
-        $crawler = $client->request('GET', "/contact/{$id}/edit");
+        $crawler = $this->client->request('GET', "/contact/{$id}/edit");
 
         $buttonCrawlerNode = $crawler->selectButton('Update');
         $form = $buttonCrawlerNode->form();
-        $client->submit($form);
-        $this->assertContains(
+        $this->client->submit($form);
+        $this->assertStringContainsString(
     	    'The address was successfully updated.',
-    	    $client->getResponse()->getContent()
+    	    $this->client->getResponse()->getContent()
 	);
     }
     
     public function testCreateNewContactWithPicture()
     {
-        $client = static::createClient();
-        $client->followRedirects(true);
-        $crawler = $client->request('GET', '/new');
+        $this->client->followRedirects(true);
+        $crawler = $this->client->request('GET', '/new');
 
         $buttonCrawlerNode = $crawler->selectButton('Add new address');
         
@@ -117,28 +114,27 @@ class ContactControllerTest extends WebTestCase
             'contact[uploadedImage]' => $uploadedFile
 
         ]);
-        $client->submit($form);
-        $this->assertContains(
+        $this->client->submit($form);
+        $this->assertStringContainsString(
     	    'The address was successfully created.',
-    	    $client->getResponse()->getContent()
+    	    $this->client->getResponse()->getContent()
 	);
     }
 
     
     public function testNoSearchResult()
     {
-        $client = static::createClient();
-        $client->followRedirects(true);
-        $crawler = $client->request('GET', '/list');
+        $this->client->followRedirects(true);
+        $crawler = $this->client->request('GET', '/list');
 
         $formNode = $crawler->filter('form#form-sort-search');
         $form = $formNode->form([
             'search'    => 'NoName'
         ]);
         
-        $crawler = $client->submit($form);
+        $crawler = $this->client->submit($form);
         
-        $this->assertContains(
+        $this->assertStringContainsString(
     	    'No address was found.',
     	    $crawler->filter('h1')->text()
 	);
@@ -147,20 +143,31 @@ class ContactControllerTest extends WebTestCase
     
     public function testSearchFound()
     {
-        $client = static::createClient();
-        $client->followRedirects(true);
-        $crawler = $client->request('GET', '/list');
+        $this->loadFixture(new ContactFixtures());
+        $this->client->followRedirects(true);
+        $crawler = $this->client->request('GET', '/list');
 
         $formNode = $crawler->filter('form#form-sort-search');
         $form = $formNode->form([
             'search'    => 'Max'
         ]);
         
-        $crawler = $client->submit($form);
-        
+        $crawler = $this->client->submit($form);
         $this->assertGreaterThanOrEqual(1, 
     	    $crawler->filter('li.list-group-item')->count()
 	);
     }
 
+    public function tearDown() : void
+    {
+        parent::tearDown();   
+
+        // Remove uploaded test images
+        $files = glob(__DIR__.'/../../public/uploads/images/default-img-*.png'); // get all uploaded test images
+        foreach ($files as $file) { // iterate files
+            if (is_file($file)) {
+                unlink($file); // delete file
+            }
+        }
+    }
 }

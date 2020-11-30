@@ -46,7 +46,7 @@
         "symfony/debug-bundle": "^3.4",
         "symfony/maker-bundle": "^1.23",
         "symfony/monolog-bridge": "3.4.*",
-        "symfony/phpunit-bridge": "^5.1",
+        "symfony/phpunit-bridge": "^5.2",
         "symfony/stopwatch": "^3.4",
         "symfony/var-dumper": "^3.4",
         "symfony/web-profiler-bundle": "^3.4",

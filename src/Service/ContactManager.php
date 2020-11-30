@@ -71,7 +71,37 @@ class ContactManager {
      ->setCity($request->get('city'))
      ->setPhonenumber($request->get('phoneNumber')) 
      ->setCountry($request->get('country'))
-     ->setEmailaddress($request->get('emailAddress'));
+     ->setEmailaddress($request->get('emailAddress'))
+     ->setBirthDay(new \DateTime($request->get('birthDay')));
+     
+      return $this->saveContact($contact);
+ 
+        
+    }
+
+    public function apiUpdateContact(Request $request, Contact $contact)
+    {      
+      $fName = $request->get('firstName', $contact->getFirstName());
+      $lName = $request->get('lastName', $contact->getLastName());
+      $sName = $request->get('streetName', $contact->getStreetName());
+      $sNumber = $request->get('streetNumber', $contact->getStreetNumber());
+      $zip = $request->get('zip', $contact->getZip());
+      $city = $request->get('city', $contact->getCity());
+      $phone = $request->get('phoneNumber', $contact->getPhoneNumber());
+      $country = $request->get('country', $contact->getCountry());
+      $email = $request->get('emailAddress', $contact->getEmailAddress());
+      $birthday =  is_null($request->get('birthDay')) ? $contact->getBirthDay() : new \DateTime($request->get('birthDay'));
+        
+      $contact->setFirstname($fName)
+     ->setLastname($lName) 
+     ->setStreetname($sName) 
+     ->setStreetnumber($sNumber)
+     ->setZip($zip)
+     ->setCity($city)
+     ->setPhonenumber($phone) 
+     ->setCountry($country)
+     ->setEmailaddress($email)
+     ->setBirthDay($birthday);
      
       return $this->saveContact($contact);
  

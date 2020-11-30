@@ -13,17 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 class ContactManagerTest extends KernelTestCase
 {
     
-    /**
-     * @var \Doctrine\ORM\EntityManager
-     */
-    private $entityManager;
-
-    protected function setUp(): void
-    {
-        $kernel = self::bootKernel();
-
-    }
-    
+  
     public function testGetContactsList(){
 
         $contactRepository = $this->createMock(ContactRepository::class);

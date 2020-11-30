@@ -20,7 +20,7 @@ This project is an Address book application written with Symfony Framework (3.4)
     - [Get Address](#get-address)
     - [Add Address](#add-address)
     - [Delete Address](#delete-address)
-- [Dependencies](#dependencie)    
+- [Dependencies](#dependencies)    
 - [Screenshots](#screenshots)
 
 ## Features
@@ -105,17 +105,18 @@ docker-compose stop
 
 * **URL**
 
-  /api/addresses/:page
+  /api/addresses
 
 * **Method:**
 
   `GET`
   
-*  **URL Params**:
+*  **Query Params**:
+
+   `page[integer]`
 
    **Optional**:
    
-   `page[integer]`
 
 * **Data Params**
 
@@ -193,7 +194,7 @@ docker-compose stop
 
 * **URL**
 
-  /api/address
+  /api/addresses
 
 * **Method:**
 
@@ -266,8 +267,8 @@ docker-compose stop
 
 * **Success Response:**
 
-  * **Code:** 200 <br />
-    **Content:** `Address deleted successfully`
+  * **Code:** 204 <br />
+    **Content:** none
  
 * **Error Response:**
 
@@ -292,7 +293,7 @@ docker-compose stop
 
 * **URL**
 
-  /api/address/:id
+  /api/addresses/:id
 
 * **Method:**
 

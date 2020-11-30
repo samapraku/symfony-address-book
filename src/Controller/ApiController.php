@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Service\ContactManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -19,10 +20,11 @@ class ApiController extends Controller
     /**
      * @param ContactManager $contactManager
      * @return JsonResponse
-     * @Route("/addresses/{page}", name="api_contacts", methods={"GET"}, defaults={"page":1})
+     * @Route("/addresses", name="api_contacts", methods={"GET"})
      */
-    public function getContacts($page, ContactManager $contactManager)
+    public function getContacts(ContactManager $contactManager, Request $request)
     {
+        $page = (int)$request->query->get('page', 1);
         $data = $contactManager->getContactsList($page);
        
         return $this->response($data->getItems());
@@ -33,7 +35,7 @@ class ApiController extends Controller
      * @param ContactManager $contactManager
      * @return JsonResponse
      * @throws \Exception
-     * @Route("/address", name="api_add_contact", methods={"POST"})
+     * @Route("/addresses", name="api_add_contact", methods={"POST"})
      */
     public function addAddress(Request $request, ContactManager $contactManager)
     {
@@ -53,7 +55,7 @@ class ApiController extends Controller
                     'success' => "Address added successfully",
                 ];
 
-                return $this->response($data);
+                return $this->response($data, Response::HTTP_CREATED);
             }
         } catch (\Exception $e) {
             $data = [
@@ -90,13 +92,13 @@ class ApiController extends Controller
      * @param ContactManager $contactManager
      * @param $id
      * @return JsonResponse
-     * @Route("/address/{id}", name="api_address_put", methods={"PUT"})
+     * @Route("/addresses/{id}", name="api_address_put", methods={"PUT"})
      */
     public function updateAddress($id, Request $request, ContactManager $contactManager)
     {
 
         try {
-            $contact = $$contactManager->loadContact($id);
+            $contact = $contactManager->loadContact($id);
 
             if (!$contact) {
                 $data = [
@@ -109,13 +111,13 @@ class ApiController extends Controller
             $request = $this->transformJsonBody($request);
 
 
-            $result = $contactManager->apiSaveContact($request);
-            $contact = $$contactManager->loadContact($id);
+            $result = $contactManager->apiUpdateContact($request, $contact);
+            $contact = $contactManager->loadContact($id);
 
             if ($result) {
                 $data = [
                     'status' => 200,
-                    'errors' => "Contact updated successfully",
+                    'message' => "Contact updated successfully",
                 ];
                 return $this->response($data);
             }
@@ -142,16 +144,13 @@ class ApiController extends Controller
       'status' => 404,
       'errors' => "Address not found",
      ];
-     return $this->response($data, 404);
+     return $this->response($data, Response::HTTP_NOT_FOUND);
     }
     
     $contactManager->deleteContact($address);
    
-    $data = [
-     'status' => 200,
-     'errors' => "Address deleted successfully.",
-    ];
-    return $this->response($data);
+    $data = [ ];
+    return $this->response($data, Response::HTTP_NO_CONTENT);
    }
 
     private function validateRequest(Request $request): array
