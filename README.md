@@ -81,6 +81,11 @@ Excecute the command below to start the container and run the application.
 docker-compose up -d
 ```
 
+Create database schema
+```bash
+docker-compose exec php php bin/console doctrine:schema:create
+```
+
 The application will run at http://localhost:80. Make sure no service is already listening on port 80.
 
 To stop your containers, use :
